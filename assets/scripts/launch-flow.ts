@@ -10,11 +10,12 @@
  */
 
 import { Asset, BufferAsset, director, Prefab } from "cc";
-// import { OPEN_DEBUG_PANEL } from "cc/userland/macro";
+import { OPEN_DEBUG_PANEL } from "cc/userland/macro";
 import { Container } from "db://game-core/game-framework";
-import { AssetHandle, AssetService, AsyncNextState, ConfService, DirAsset, PalService, UIService } from "db://game-framework/game-framework";
+import { AssetHandle, AssetService, AsyncNextState, ConfService, DirAsset, DraggableNode, PalService, UILayer, UIService } from "db://game-framework/game-framework";
 import { UserService } from "./core/user-service";
 import { MainService } from "./modules/main/main-service";
+import { DebugService } from "./modules/debug/debug-service";
 
 /**
  * 初始化
@@ -37,9 +38,9 @@ export class LaunchInitialize extends AsyncNextState {
             loader.getOrCreateAssetHandle("config-res", DirAsset, "")
         ];
 
-        //    if (OPEN_DEBUG_PANEL) {
-        //         assets.push(loader.getOrCreateAssetHandle("debug-res", DirAsset, ""));
-        //     }
+        if (OPEN_DEBUG_PANEL) {
+            assets.push(loader.getOrCreateAssetHandle("debug-res", DirAsset, ""));
+        }
 
         for await (const progress of loader.loadAssets(assets)) {
             this._progress = progress.progress;
@@ -88,20 +89,20 @@ export class LaunchDone extends AsyncNextState {
         await uiService.open(MainService);
         await uiService.closeOrPopViewName("LoadingView");
 
-        // if (OPEN_DEBUG_PANEL) {
-        //     const root = uiService.getLayer(UILayer.Root)!;
-        //     const loader = Container.get(AssetService)!;
-        //     const handle = loader.getOrCreateAssetHandle("debug-res", Prefab, "debug-button");
-        //     const btn = loader.instantiateAsset(handle, true);
-        //     root.addChild(btn);
+        if (OPEN_DEBUG_PANEL) {
+            const root = uiService.getLayer(UILayer.Root)!;
+            const loader = Container.get(AssetService)!;
+            const handle = loader.getOrCreateAssetHandle("debug-res", Prefab, "debug-button");
+            const btn = loader.instantiateAsset(handle, true);
+            root.addChild(btn);
 
-        //     const draggable = btn.getComponent(DraggableNode);
-        //     draggable?.setCallback(async () => {
-        //         if (uiService.hasOpenView("DebugView")) {
-        //             return;
-        //         }
-        //         await uiService.open(DebugService);
-        //     });
-        // }
+            const draggable = btn.getComponent(DraggableNode);
+            draggable?.setCallback(async () => {
+                if (uiService.hasOpenView("DebugView")) {
+                    return;
+                }
+                await uiService.open(DebugService);
+            });
+        }
     }
 }
