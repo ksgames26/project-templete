@@ -35,7 +35,7 @@ export class LaunchInitialize extends AsyncNextState {
             loader.getOrCreateAssetHandle("main-ui-res", Prefab, "main-view"),
 
             // 加载配置文件bundle包
-            loader.getOrCreateAssetHandle("config-res", DirAsset, "")
+            // loader.getOrCreateAssetHandle("config-res", DirAsset, "")
         ];
 
         if (OPEN_DEBUG_PANEL) {
@@ -62,11 +62,11 @@ export class LaunchLogin extends AsyncNextState {
         director.emit("game-framework-initialize");
         const conf = Container.get(ConfService)!;
         const loader = Container.get(AssetService)!;
-        const info = loader.getOrCreateAssetHandle("config-res", BufferAsset, "cfg");
+        // const info = loader.getOrCreateAssetHandle("config-res", BufferAsset, "cfg");
         this._progress = 0.5;
-        const bin = await loader.getAssetAsync(info)!;
-        conf.initliaze(bin!.buffer());
-        await loader.releaseAsyncAsset(info, true);
+        // const bin = await loader.getAssetAsync(info)!;
+        // conf.initliaze(bin!.buffer());
+        // await loader.releaseAsyncAsset(info, true);
 
         // 平台登录
         const pal = Container.get(PalService);
