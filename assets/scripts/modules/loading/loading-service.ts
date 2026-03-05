@@ -1,8 +1,11 @@
-import { Asset, Prefab, assert } from "cc";
+import { Asset, Prefab, assert, _decorator } from "cc";
 import { DEBUG } from "cc/env";
 import { Container } from "db://game-core/game-framework";
 import { AssetHandle, AssetService, AsyncNextStateMachine, BaseService, MultiAssetsHandle, OpenViewOptions, TaskService, UIAnimaOpenMode, UILayer, UIShowType } from "db://game-framework/game-framework";
 
+const { ccclass } = _decorator;
+
+@ccclass("LoadingService")
 @Container.injectable()
 export class LoadingService extends BaseService<{ infoInvoke: string, progressInvoke: { progress: number, name: string } }> {
     public viewOptions(): OpenViewOptions {

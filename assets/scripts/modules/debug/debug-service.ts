@@ -1,7 +1,9 @@
-import { Prefab } from "cc";
+import { Prefab,_decorator } from "cc";
 import { Container } from "db://game-core/game-framework";
 import { BaseService, OpenViewOptions, UIAnimaOpenMode, UILayer, UIShowType } from "db://game-framework/game-framework";
+const { ccclass } = _decorator;
 
+@ccclass("DebugService")
 @Container.injectable()
 export class DebugService extends BaseService {
     public viewOptions(): OpenViewOptions {
